@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { LogIn, LogOut, Plus, Trash2, Edit2, Check, X, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 
-const API_URL = 'http://localhost:5001/api';
+const API_URL = 'https://task-manager-backend-62y6.onrender.com/api';
 
 function App() {
   const [user, setUser] = useState(null);
