@@ -9,7 +9,11 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['https://task-manager-green-beta-19.vercel.app', 'http://localhost:3000'],
+  origin: [
+    'https://task-manager-green-beta-19.vercel.app',
+    'http://localhost:3000',
+    'http://localhost:5173'
+  ],
   credentials: true
 }));
 app.use(express.json());
