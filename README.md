@@ -1,305 +1,176 @@
-# 📋 Full-Stack Task Manager
+# Task Manager - Full Stack Web App
 
-A modern, full-featured task management application built with React, Node.js, Express, and MongoDB. Features secure JWT-based authentication, RESTful API design, and a beautiful, responsive UI.
+A task management application I built to learn full-stack development with React, Node.js, and MongoDB. Started as a basic CRUD app and evolved into something with proper authentication, search, statistics, and a bunch of other features I thought would be useful.
 
-## 🚀 Features
+**Live Demo:** [https://task-manager-green-beta-19.vercel.app](https://task-manager-green-beta-19.vercel.app)
 
-### Authentication & Security
-- ✅ User registration and login
-- ✅ JWT-based authentication
-- ✅ Password hashing with bcrypt
-- ✅ Secure session management
-- ✅ Protected API routes
+**Backend:** [https://task-manager-backend-62y6.onrender.com](https://task-manager-backend-62y6.onrender.com)
 
-### Task Management
-- ✅ Create, read, update, and delete tasks
-- ✅ Task status tracking (pending/completed)
-- ✅ Priority levels (low, medium, high)
-- ✅ Due date assignment
-- ✅ Task descriptions
-- ✅ Real-time filtering by status
-- ✅ Task counters and statistics
+## What It Does
 
-### User Interface
-- ✅ Modern, gradient-based design
-- ✅ Fully responsive layout
-- ✅ Smooth animations and transitions
-- ✅ Intuitive task editing
-- ✅ Visual priority indicators
-- ✅ Clean, professional styling
+This is a web app where you can manage your tasks - create them, mark them complete, set priorities and due dates, that kind of thing. I added JWT authentication so each user has their own private task list. The frontend is React with Tailwind for styling, backend is Node/Express, and MongoDB for the database.
 
-## 🛠️ Tech Stack
+Some features I'm particularly happy with:
+- Statistics dashboard showing your task completion rate and what's overdue
+- Search bar that filters through your tasks in real-time
+- Different ways to sort tasks (by date, priority, due date)
+- Shows you when tasks are overdue with red highlighting
+- Password show/hide toggle (because I always mistype passwords)
+- "Forgot password" flow (though the email part isn't wired up yet)
 
-### Frontend
-- **React 18** - UI library
-- **Vite** - Build tool and dev server
-- **Tailwind CSS** - Utility-first CSS framework
-- **Lucide React** - Beautiful icon library
+## Tech Stack
 
-### Backend
-- **Node.js** - Runtime environment
-- **Express.js** - Web framework
-- **MongoDB** - NoSQL database
-- **Mongoose** - MongoDB object modeling
-- **JWT** - Authentication tokens
-- **bcryptjs** - Password hashing
+**Frontend**
+- React 18
+- Vite (much faster than Create React App)
+- Tailwind CSS
+- Lucide for icons
 
-## 📦 Installation
+**Backend**
+- Node.js & Express
+- MongoDB with Mongoose
+- JWT for authentication
+- bcrypt for password hashing
 
-### Prerequisites
-- Node.js (v16 or higher)
-- MongoDB (local or Atlas)
-- npm or yarn
+## Running Locally
 
-### 1. Clone the Repository
+You'll need Node.js and either MongoDB installed locally or a MongoDB Atlas account (free tier works fine).
+
+**1. Clone and install:**
 ```bash
-git clone <your-repo-url>
-cd task-manager
+git clone https://github.com/YOUR-USERNAME/task-manager-fullstack.git
+cd task-manager-fullstack
 ```
 
-### 2. Backend Setup
+**2. Backend setup:**
 ```bash
 cd server
 npm install
-
-# Create .env file
-cp .env.example .env
-
-# Edit .env with your configuration
-# MONGODB_URI=mongodb://localhost:27017/taskmanager
-# JWT_SECRET=your-secret-key
-# PORT=5000
 ```
 
-### 3. Frontend Setup
-```bash
-cd ../client
-npm install
+Create a `.env` file in the server directory:
 ```
-
-### 4. Start MongoDB
-If using local MongoDB:
-```bash
-# macOS/Linux
-mongod
-
-# Windows
-net start MongoDB
-```
-
-Or use MongoDB Atlas (cloud) - update MONGODB_URI in .env
-
-### 5. Run the Application
-
-**Terminal 1 - Backend:**
-```bash
-cd server
-npm run dev
-# Server runs on http://localhost:5000
-```
-
-**Terminal 2 - Frontend:**
-```bash
-cd client
-npm run dev
-# Client runs on http://localhost:3000
-```
-
-## 🔐 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST | `/api/auth/register` | Register new user | No |
-| POST | `/api/auth/login` | Login user | No |
-
-### Tasks
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| GET | `/api/tasks` | Get all user tasks | Yes |
-| GET | `/api/tasks/:id` | Get single task | Yes |
-| POST | `/api/tasks` | Create new task | Yes |
-| PUT | `/api/tasks/:id` | Update task | Yes |
-| DELETE | `/api/tasks/:id` | Delete task | Yes |
-
-### Request/Response Examples
-
-**Register/Login:**
-```json
-POST /api/auth/register
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "securepassword"
-}
-
-Response:
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-  "user": {
-    "id": "507f1f77bcf86cd799439011",
-    "name": "John Doe",
-    "email": "john@example.com"
-  }
-}
-```
-
-**Create Task:**
-```json
-POST /api/tasks
-Headers: { "Authorization": "Bearer <token>" }
-{
-  "title": "Complete project documentation",
-  "description": "Write comprehensive README and API docs",
-  "priority": "high",
-  "dueDate": "2024-12-31"
-}
-
-Response:
-{
-  "_id": "507f1f77bcf86cd799439012",
-  "title": "Complete project documentation",
-  "description": "Write comprehensive README and API docs",
-  "status": "pending",
-  "priority": "high",
-  "dueDate": "2024-12-31T00:00:00.000Z",
-  "userId": "507f1f77bcf86cd799439011",
-  "createdAt": "2024-10-15T10:30:00.000Z",
-  "updatedAt": "2024-10-15T10:30:00.000Z"
-}
-```
-
-## 🎨 Features Showcase
-
-### Dashboard
-- View all tasks at a glance
-- Filter by status (All, Pending, Completed)
-- Real-time task counters
-- Priority-based visual indicators
-
-### Task Creation
-- Simple, intuitive form
-- All fields clearly labeled
-- Inline validation
-- Instant feedback
-
-### Task Management
-- One-click status toggle
-- Inline editing capabilities
-- Confirm-free deletion
-- Smooth animations
-
-### Authentication
-- Secure login/register flow
-- Token-based sessions
-- Automatic token refresh
-- Logout functionality
-
-## 🔧 Configuration
-
-### Environment Variables
-
-**Server (.env):**
-```env
-MONGODB_URI=mongodb://localhost:27017/taskmanager
-JWT_SECRET=your-super-secret-jwt-key-change-this
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=some_random_secret_string
 PORT=5000
 ```
 
-**Client (vite.config.js):**
-- Proxy configured to forward `/api` requests to backend
-- Default port: 3000
-
-## 📱 Responsive Design
-
-The application is fully responsive and works seamlessly on:
-- 📱 Mobile devices (320px+)
-- 📱 Tablets (768px+)
-- 💻 Desktops (1024px+)
-- 🖥️ Large screens (1440px+)
-
-## 🚀 Deployment
-
-### Backend (Heroku, Railway, Render)
-1. Push code to GitHub
-2. Connect repository to platform
-3. Set environment variables
-4. Deploy
-
-### Frontend (Vercel, Netlify)
-1. Push code to GitHub
-2. Connect repository
-3. Set build command: `npm run build`
-4. Set publish directory: `dist`
-5. Deploy
-
-### MongoDB Atlas (Production Database)
-1. Create free cluster at mongodb.com/cloud/atlas
-2. Get connection string
-3. Update MONGODB_URI in production env vars
-
-## 🧪 Testing
-
-### Manual Testing Checklist
-- ✅ User registration with valid data
-- ✅ User login with correct credentials
-- ✅ Create task with all fields
-- ✅ Update task title and description
-- ✅ Toggle task status (pending ↔ completed)
-- ✅ Delete task
-- ✅ Filter tasks by status
-- ✅ Logout and session clearing
-
-### API Testing with Postman/Thunder Client
-Import the endpoints and test with proper authorization headers.
-
-## 🐛 Troubleshooting
-
-**MongoDB Connection Error:**
-- Ensure MongoDB is running
-- Check MONGODB_URI in .env
-- Verify network access (for Atlas)
-
-**CORS Error:**
-- Verify backend URL in frontend code
-- Check CORS configuration in server.js
-
-**Authentication Issues:**
-- Clear localStorage
-- Check JWT_SECRET consistency
-- Verify token expiration (default: 7 days)
-
-**Port Already in Use:**
+**3. Frontend setup:**
 ```bash
-# Kill process on port 5000
-lsof -ti:5000 | xargs kill -9
-
-# Or change PORT in .env
+cd client
+npm install
 ```
 
-## 📈 Future Enhancements
+**4. Run both servers:**
 
-- 🔔 Task notifications and reminders
-- 👥 Task sharing and collaboration
-- 📊 Analytics dashboard
-- 🏷️ Task categories and tags
-- 🔍 Advanced search and filtering
-- 📎 File attachments
-- 🎨 Theme customization
-- 📱 Mobile app (React Native)
+In one terminal:
+```bash
+cd server
+npm run dev
+```
 
-## 📄 License
+In another terminal:
+```bash
+cd client
+npm run dev
+```
 
-MIT License - feel free to use this project for your portfolio or commercial purposes.
+Frontend runs on `localhost:3000`, backend on `localhost:5000`.
 
-## 👨‍💻 Author
+## API Endpoints
 
-Built with ❤️ as a demonstration of full-stack development skills using modern web technologies.
+All task endpoints require the `Authorization: Bearer <token>` header.
 
-## 🙏 Acknowledgments
+**Auth:**
+- `POST /api/auth/register` - Create account
+- `POST /api/auth/login` - Login
 
-- React team for the amazing library
-- Tailwind CSS for the utility-first CSS framework
-- MongoDB team for the flexible database
-- Express.js community
-- Lucide for beautiful icons
+**Tasks:**
+- `GET /api/tasks` - Get all your tasks
+- `GET /api/tasks/:id` - Get one task
+- `POST /api/tasks` - Create task
+- `PUT /api/tasks/:id` - Update task
+- `DELETE /api/tasks/:id` - Delete task
+
+## Features Breakdown
+
+### Authentication
+- Register/login with email and password
+- Password validation (min 6 characters)
+- Show/hide password toggle
+- "Forgot password" modal (frontend only for now)
+- Better error messages that actually tell you what went wrong
+- JWT tokens with 7-day expiration
+
+### Task Management
+- Create tasks with title, description, priority, and due date
+- Edit everything inline - just click the edit icon
+- Mark tasks complete with one click
+- Delete with confirmation (learned this the hard way)
+- Overdue tasks get highlighted in red
+- Search through tasks by title or description
+- Sort by newest, oldest, priority, or due date
+- Filter by all/pending/completed
+
+### Dashboard
+- Stats showing total, pending, completed, overdue, and high priority tasks
+- Progress bar with completion percentage
+- Motivational message when you finish everything
+- All stats update in real-time as you work
+
+### UI/UX
+- Responsive design (works on phones, tablets, desktop)
+- Success messages that auto-dismiss after 5 seconds
+- Loading states on buttons
+- Hover effects and smooth transitions
+- Sticky navbar so you can always logout
+- Empty states with helpful messages
+
+## Deployment
+
+I deployed this using free tiers:
+- Frontend on Vercel (auto-deploys from GitHub)
+- Backend on Render (also auto-deploys)
+- Database on MongoDB Atlas (512MB free tier)
+
+Main gotcha: Make sure to allow all IPs (0.0.0.0/0) in MongoDB Atlas network settings, otherwise Render can't connect.
+
+## Things I'd Add Next
+
+- Email verification and actual password reset emails
+- Task categories or tags
+- Ability to share tasks with other users
+- Dark mode (everyone asks for this)
+- Keyboard shortcuts
+- Export tasks to CSV
+- Drag and drop to reorder
+- Mobile app version
+
+## Challenges I Ran Into
+
+The CORS setup took me a while to get right for production. Also spent some time debugging why Render couldn't connect to MongoDB - turned out I needed to whitelist all IPs.
+
+The overdue task detection was trickier than expected because of timezone handling. Had to make sure to compare dates properly.
+
+Getting the search and sort to work together without re-fetching from the API every time was a good learning experience with React state management.
+
+## What I Learned
+
+This was my first real full-stack project with authentication. Learned a lot about:
+- JWT tokens and how to handle them securely
+- MongoDB schemas and relationships
+- React hooks (especially useEffect and useState)
+- Deploying separate frontend and backend
+- Environment variables and keeping secrets safe
+- API design and RESTful principles
+
+## License
+
+MIT - use it for whatever you want.
+
+## Contact
+
+Feel free to reach out if you have questions or want to chat about the code!
+
+- GitHub: [@yourusername](https://github.com/yourusername)
+- Email: your.email@example.com

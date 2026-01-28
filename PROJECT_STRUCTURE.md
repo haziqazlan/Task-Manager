@@ -1,161 +1,171 @@
-# 📁 Project Structure
+# Project Structure
+
+Here's how the code is organized:
 
 ```
 task-manager/
-├── 📂 client/                          # React Frontend
-│   ├── 📂 src/
-│   │   ├── App.jsx                    # Main application component
-│   │   ├── main.jsx                   # React entry point
-│   │   └── index.css                  # Global styles with Tailwind
-│   ├── index.html                     # HTML template
-│   ├── package.json                   # Frontend dependencies
-│   ├── vite.config.js                 # Vite configuration
-│   ├── tailwind.config.js             # Tailwind CSS config
-│   └── postcss.config.js              # PostCSS config
+├── client/                 # React frontend
+│   ├── src/
+│   │   ├── App.jsx        # Main component (~600 lines - most of the app logic)
+│   │   ├── main.jsx       # React entry point
+│   │   └── index.css      # Tailwind imports and global styles
+│   ├── index.html
+│   ├── package.json
+│   ├── vite.config.js     # Dev server config
+│   ├── tailwind.config.js
+│   └── postcss.config.js
 │
-├── 📂 server/                          # Node.js Backend
-│   ├── server.js                      # Express server & API routes
-│   ├── package.json                   # Backend dependencies
-│   └── .env.example                   # Environment variables template
+├── server/                 # Node.js backend
+│   ├── server.js          # Everything backend (~200 lines)
+│   ├── package.json
+│   └── .env.example       # Template for environment variables
 │
-├── README.md                          # Complete documentation
-├── QUICK_START.md                     # 5-minute setup guide
-└── .gitignore                         # Git ignore rules
+├── README.md
+├── QUICK_START.md
+└── .gitignore
 ```
 
-## 📋 File Descriptions
+## Frontend (`client/`)
 
-### Frontend (Client)
+### `src/App.jsx`
+This is where most of the action happens. It's a single-component React app that handles:
 
-**src/App.jsx** (300+ lines)
-- Complete React application
-- Authentication UI (login/register)
-- Task management interface
-- RESTful API integration
-- State management with hooks
-- Responsive design with Tailwind
+- Authentication state (login/register forms, password visibility toggle, validation)
+- All the task CRUD operations
+- Search and filter logic
+- Sorting
+- Statistics calculations
+- UI state management (editing mode, success/error messages)
 
-**src/main.jsx**
-- React 18 entry point
-- Root component rendering
+I kept it all in one file because the app isn't that complex yet. If it grows, I'd probably split it into:
+- A `components/` folder (AuthForm, TaskList, TaskForm, StatsCard)
+- A `hooks/` folder (useAuth, useTasks)
+- Maybe context for sharing auth state
 
-**src/index.css**
-- Tailwind CSS directives
-- Global styles
+### `src/index.css`
+Just Tailwind imports plus a few global resets. Nothing fancy.
 
-**index.html**
-- Single-page app template
-- Vite integration
+### `vite.config.js`
+Pretty standard Vite setup. Has a proxy configured so API calls to `/api` get forwarded to `localhost:5000` during development.
 
-**Configuration Files:**
-- `vite.config.js` - Dev server & build settings
-- `tailwind.config.js` - Tailwind customization
-- `postcss.config.js` - CSS processing
-- `package.json` - Dependencies & scripts
+## Backend (`server/`)
 
-### Backend (Server)
+### `server.js`
+The entire backend is in this one file. It includes:
 
-**server.js** (200+ lines)
-- Express.js server setup
-- MongoDB connection with Mongoose
-- User & Task schemas/models
-- JWT authentication middleware
-- RESTful API endpoints:
-  - POST /api/auth/register
-  - POST /api/auth/login
-  - GET /api/tasks
-  - GET /api/tasks/:id
-  - POST /api/tasks
-  - PUT /api/tasks/:id
-  - DELETE /api/tasks/:id
+**Database Schemas:**
+- User (name, email, hashed password)
+- Task (title, description, status, priority, dueDate, userId)
 
-**package.json**
-- Backend dependencies
-- Start/dev scripts
+**Routes:**
+- Auth routes (register, login)
+- Task routes (CRUD operations)
+- Health check endpoint
 
-**.env.example**
-- Environment variable template
-- MongoDB URI
-- JWT secret
-- Port configuration
+**Middleware:**
+- JWT verification
+- CORS (configured for production URLs)
+- JSON body parsing
 
-### Documentation
+I structured it this way because it's small enough that splitting it into separate route files felt like overkill. If I add more features (like task sharing or categories), I'd refactor into:
+```
+server/
+├── models/
+│   ├── User.js
+│   └── Task.js
+├── routes/
+│   ├── auth.js
+│   └── tasks.js
+├── middleware/
+│   └── auth.js
+└── server.js
+```
 
-**README.md**
-- Complete project documentation
-- Setup instructions
-- API reference
-- Feature list
-- Deployment guide
-- Troubleshooting
+### `.env.example`
+Template showing what environment variables you need. Never commit the actual `.env` file.
 
-**QUICK_START.md**
-- 5-minute setup guide
-- Common issues & solutions
-- Quick reference
+## Key Features by File
 
-**.gitignore**
-- Excludes node_modules
-- Protects .env files
-- Ignores build artifacts
+**App.jsx handles:**
+- All React state (user, tasks, filters, search query, etc.)
+- Form submissions (login, register, create task)
+- API calls to backend
+- Input validation
+- Success/error message display
+- Statistics calculations (completion rate, overdue count)
+- Search filtering and sorting logic
+- Responsive UI rendering
 
-## 🔑 Key Features per File
+**server.js handles:**
+- Database connection
+- User authentication (password hashing, JWT generation)
+- Protecting routes with JWT middleware
+- Task CRUD with user isolation (users can only access their own tasks)
+- Input validation
+- Error handling
 
-### App.jsx
-✅ User authentication (register/login)
-✅ JWT token management
-✅ Task CRUD operations
-✅ Status filtering (all/pending/completed)
-✅ Priority levels (low/medium/high)
-✅ Due date tracking
-✅ Inline editing
-✅ Responsive design
-✅ Error handling
-✅ Loading states
-
-### server.js
-✅ RESTful API design
-✅ JWT-based authentication
-✅ Password hashing (bcrypt)
-✅ MongoDB integration
-✅ User isolation (tasks per user)
-✅ CORS enabled
-✅ Error handling
-✅ Input validation
-✅ Secure routes
-
-## 🚀 Tech Stack Summary
+## Dependencies
 
 **Frontend:**
-- React 18 (UI library)
-- Vite (build tool)
-- Tailwind CSS (styling)
-- Lucide React (icons)
+- react & react-dom (UI)
+- lucide-react (icons - much lighter than font-awesome)
+- Vite (dev server & bundler - way faster than webpack)
+- Tailwind & PostCSS (styling)
 
 **Backend:**
-- Node.js (runtime)
-- Express.js (web framework)
-- MongoDB (database)
-- Mongoose (ODM)
-- JWT (authentication)
+- express (web framework)
+- mongoose (MongoDB ORM)
+- jsonwebtoken (for JWTs)
 - bcryptjs (password hashing)
+- cors (cross-origin requests)
+- dotenv (environment variables)
 
-## 📊 Code Statistics
+**Dev Dependencies:**
+- nodemon (auto-restart server on changes)
+- Some Tailwind plugins
 
-- **Total Files:** 13
-- **Lines of Code:** ~800+
-- **React Components:** 1 main component
-- **API Endpoints:** 7
-- **Database Models:** 2 (User, Task)
+## File Sizes
 
-## 🎯 Ready for Portfolio
+App.jsx is definitely the biggest file (~600 lines). I could probably break it up, but honestly it's still pretty readable. Everything is organized into logical sections:
 
-This project demonstrates:
-1. ✅ Full-stack development skills
-2. ✅ RESTful API design
-3. ✅ Database modeling
-4. ✅ Authentication & security
-5. ✅ Modern React patterns
-6. ✅ Responsive UI/UX
-7. ✅ Professional code structure
-8. ✅ Complete documentation
+1. State declarations
+2. Effects (auto-login, message auto-dismiss)
+3. API functions (auth, tasks)
+4. Helper functions (filtering, sorting, stats)
+5. Render (auth screen vs main app)
+
+## Design Decisions
+
+**Why one big App.jsx?**
+- The app isn't complex enough to warrant dozens of tiny files
+- State is mostly related (tasks affect stats, search affects filters, etc.)
+- Makes it easier to understand the flow
+- Can always refactor later if needed
+
+**Why no TypeScript?**
+- Wanted to focus on learning the full-stack flow first
+- Might add it later for better IDE autocomplete
+
+**Why Vite instead of Create React App?**
+- Much faster hot reload
+- Smaller bundle size
+- CRA is basically deprecated at this point
+
+**Why MongoDB?**
+- Good for this type of unstructured data
+- Easy to change schema as I add features
+- Free tier on Atlas is generous
+
+## What I'd Refactor
+
+If I were to continue building this:
+
+1. Split App.jsx into smaller components
+2. Add a proper folder structure (components, hooks, utils)
+3. Extract API calls to a separate service file
+4. Add TypeScript
+5. Split backend into MVC pattern
+6. Add tests (I know, I know)
+7. Set up proper logging instead of console.log
+
+But for now, it works and the code is maintainable. That's good enough for a learning project.
