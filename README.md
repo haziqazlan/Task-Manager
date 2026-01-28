@@ -172,5 +172,5 @@ MIT - use it for whatever you want.
 
 Feel free to reach out if you have questions or want to chat about the code!
 
-- GitHub: [@yourusername](https://github.com/yourusername)
-- Email: your.email@example.com
+- GitHub: [@haziqazlan](https://github.com/haziqazlan)
+- Email: haziqazlanshah@gmail.com
